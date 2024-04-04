@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="inc/layout"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        window.addEventListener("load", function(e){
+            var lis = document.querySelector("#h1");
+            lis.onclick=function(e) {
+                // var x;
+                // console.log(x=== undefined);
+                // console.log(x=== null);
+                // console.log(x== undefined);
+                // console.log(x== null);
+                // var nums = new Array();
+                // nums[0]=5;
+                // nums[1]=2;
+                // nums[2]=6;
+                // nums[8]=1;
+                // console.log(nums);
+                // console.log(nums[6]===undefined);
+                // console.log(nums[6]===null);
+                // var arr = new Array(1, 2, nums);
+                // console.log(typeof arr[2]);
+                // console.log(typeof arr[2][1]);
+
+                var arr = new Array();
+                arr.push(3);
+                arr.push(4);
+                arr.push(5);
+                arr.push(6);
+                console.log(arr);
+
+                var num =arr.pop();
+                console.log(arr, num);
+                
+                var num =arr.shift();
+                console.log(arr, num);
+
+                var num =arr.unshift(8);
+                console.log(arr, num);
+
+                for(var num of arr)
+                    console.log(num);
+
+                var nums2 = new Array(11,12,13,14);
+                nums2.splice(1,2);
+                console.log(nums2);
+
+
+                var str = "var x = 30;";
+            // object는 소괄호 사용해야 됨
+            var str2 = '({id:1, title:"hello"})';
+            var str3 = '[23, "hello"]';
+
+            //JSON 번역하려면 key값에 더블쿼테이션 해줘야됨
+            var str4 = '{"id":1, "title":"hello222"}';
+
+            // eval() 은 쓰는거 아님!! 문제가 많음 퉤퉤
+            // eval(str);
+            // var notice1 = eval(str2);
+            // var notice2 = eval(str3);
+
+            // console.log(x);
+            // console.log(notice1.title);
+            // console.log(notice2[0]);
+
+            var notice1 = JSON.parse(str4);
+            console.log(notice1.title);
+
+            // 꺼냈을 때 오류나지 않는 모양이어야 eval()을 할 수 있음
+            ({ id: 1, title: "hello" });
+            // {id:1, title:"hello"};
+            [23, "hello"];
+
+            // 데이터를 보내려면 json형식으로 바꿔서 보내야 된다
+            var n = { id: 1, title: "hello222" };
+            var json = JSON.stringify(n);
+            console.log(json);
+
+            // 첫번째 true 값을 반환한다.
+            o1 = true || true;
+            o2 = false || 3 == 4;
+            o3 = "Cat" || "Dog";
+            o4 = " " || false; // ' ' is true
+            o5 = "" || false; // '' is false
+            console.log(o3);
+
+            //=========== null 아닌 값 찾기 =============
+            var a = null;
+            var b = null;
+            var c = 50;
+
+            var result = a || b || c;
+            console.log(result);
+            //==========================================
+
+            // =============== Truthy / Falsy =================
+
+            // 전부 false면 마지막 값을 반환한다.
+            var result = null || 0; //0
+            var result = 0 || null; //null
+
+            // 기본값 설정할 때 유용하다
+            var name = null || 'cho';
+            //var name = 0 ?? 'kim'; // null or undefined 일 때만 가능
+            console.log(name);
+
+            // && 은 false 를 찾는 건데 다 true면 마지막 true를 반환하고
+            // false면 바로 그 값을 반환한다.
+            var result = "Cat" && "Dog"; // 'Dog'
+            if (result) console.log("모든 값이 참 입니다.");
+
+            var result = false && true; // false
+            var result = "" && false; // ""
+
+            var result = true || (false && false); //true (&&연산자가 우선순위가 높다.)
+
+            // NaN 비교하는 방법! isNaN()
+            var a = 3 - 'a';
+
+            if(isNaN(a)) console.log("NaN 입니다.");
+            
+            var add = new Function("x,y", "return x+y");
+            console.log(add(3,4));
+            add = function(x,y){return x+y;}
+            console.log(add(3,4));
+            console.log(add(3,4,5,6));
+            console.log(add(3));
+            // alert(bsb);
+            var bsb = 1;
+
+            var aaa=1;
+            // alert(window.aaa); 
+
+            console.log("어우헷갈려");
+
+            var f2;
+            var f1 = function(){
+                // a=2;
+                // var a=1;
+                // console.log(window.a);
+                // console.log(a);
+                var x = 40;
+                f2 = function(){
+                    console.log(x);
+                }
+            }
+            f1();
+            f2();
+            }
+        });
+
+        function Exam(){
+            //  var kor = 1;
+            //  window.kor=2;
+            //  this.kor=3;
+            // console.log(kor, window.kor, this.kor);
+            this.kor = 20;
+            this.eng=30;
+            this.math=40;
+
+            //익명함수
+        }
+        //캡슐화 ~~~
+        //프로토타입 대체해버리기
+        //prototype 재정의 하는 경우 constructor 사라지므로 함께 정의해줌.
+        Exam.prototype = {
+            // constructor:Exam,
+            total:function(){
+                return this.kor+this.eng+this.math;
+            },
+            avg:function(){
+                return this.total()/3;
+            }
+        }
+
+        //prototype에게 정의새로만들기
+        // Exam.prototype.total = function(){
+        //     return this.kor+this.eng+this.math;
+        // }
+        // Exam.prototype.avg = function(){
+        //     return this.total()/3;
+        // }
+        // Exam();
+        var exam1 = new Exam();
+        console.log(exam1.kor);
+        console.log(exam1.total());
+        console.log(exam1.avg());
+
+        Array.prototype.ahahah = function(){
+            console.log("이잉");
+        }
+        var ar = [1,2,3];
+        ar.ahahah();
+
+        // console.log(Exam.prototype);
+
+        // console.log(Exam.total);
+        // console.log(Exam.avg);
+
+        var exam1 = new Exam();
+        console.log("Exam.prototype : ", Exam.prototype);
+        console.log("exam1.constructor.prototype : ", exam1.constructor.prototype);
+        console.log("exam1.__proto__ : ", exam1.__proto__);
+
+        //상속, prototype
+        function NewExam(){
+            this.com=20;
+        }   
+        //이미 만들어진 Exam 참조변수도 가능함
+        NewExam.prototype = new Exam();
+        var exam4 = new NewExam();
+        console.log(exam4.kor);
+
+        //ForEach
+        var ar = [1,2,3,4,5];
+        ar.forEach(n => console.log(n));
+        
+    </script>
+
+</head>
+<body>
+    <main layout:fragment="main">
+        <section>
+            <header class="d:flex">
+                <h1 class="font-weight:3
+                            font-size:3 
+                            deco deco-size:5
+                            icon:database" id="h1">메뉴 목록</h1>
+                <div><button type="button" class="n-btn n-btn-size:2 n-btn-color:base">추가</button></div>
+            </header>
+            
+            <section class="bg-color:base-4 bd-radius:2 p:2 m:1">
+                <h1 class="d:none">카테고리 목록</h1>
+                <ul class="n-list n-tag-list">
+                    <li><a href="" id="a1">커피</a></li>
+                    <li><a href="">과일청</a></li>
+                    <li><a href="">쿠키</a></li>
+                    <li><a href="">샌드위치</a></li>
+                </ul>
+            </section>
+
+            <section>
+                <h1 class="d:none">메뉴 검색 폼</h1>
+                <form action="" class="n-form md:n-field-label-position:left">
+                    <div>
+                        <label class="flex-direction:row d:flex align-items:center">
+                            <span class="font-weight:3 w:1">메뉴명</span>
+                            <input type="text" name="q">
+                        </label>
+                    </div>
+                    <!-- <div class="d:flex align-items:center"> -->
+                        <div class="flex-direction:row ">
+                            <button class="n-btn n-btn-type:outline deco icon:eye">검색</button>
+                            <button class="n-btn n-btn-type:outline">초기화</button>
+                        </div>
+                </form>
+            </section>
+
+
+
+
+
+            <section>
+                <header>
+                    <h1>진짜 메뉴 목록</h1>
+                    <a href="">정렬1</a>
+                    <a href="">정렬2</a>
+                </header>
+            </section>
+
+        </section>
+    </main>
+</body>
+</html>

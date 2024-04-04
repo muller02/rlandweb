@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="inc/layout"
+>
+<head>
+    <link href="/css/components/menu/card.css" rel="stylesheet" type="text/css">
+    <link href="/css/components/menu/menu-filter.css" rel="stylesheet" type="text/css">
+    <link href="/css/components/menu/basket-status.css" rel="stylesheet" type="text/css">
+    <link href="/css/components/menu/list.css" rel="stylesheet" type="text/css">
+    <script src="/js/menu/list.js"></script>
+</head>
+<body>
+    <main layout:fragment="main">
+        <section class="menu-list">
+            <header class="d:flex">
+                <h1 class="font-weight:3
+                            font-size:3 
+                            deco deco-size:5
+                            icon:database" id="h1">메뉴 목록</h1>
+                <div><a href="reg" class="n-btn n-btn-size:2 n-btn-color:base">추가</a></div>
+            </header>
+            
+            <section class="bg-color:base-4 bd-radius:2 p:2 m:1">
+                <h1 class="d:none">카테고리 목록</h1>
+                <ul class="n-list n-tag-list">
+                    <li><a href="" id="a1">커피</a></li>
+                    <li><a href="">과일청</a></li>
+                    <li><a href="">쿠키</a></li>
+                    <li><a href="">샌드위치</a></li>
+                </ul>
+            </section>
+
+            <section>
+                <h1 class="d:none">메뉴 검색 폼</h1>
+                <form action="" class="n-form md:n-field-label-position:left">
+                    <div>
+                        <label class="flex-direction:row d:flex align-items:center">
+                            <span class="font-weight:3 w:1">메뉴명</span>
+                            <input type="text" name="q">
+                        </label>
+                    </div>
+                    <!-- <div class="d:flex align-items:center"> -->
+                        <div class="flex-direction:row ">
+                            <button class="n-btn n-btn-type:outline deco icon:eye">검색</button>
+                            <button class="n-btn n-btn-type:outline">초기화</button>
+                        </div>
+                </form>
+            </section>
+            <section>
+                <header>
+                    <h1>진짜 메뉴 목록</h1>
+                    <a href="">정렬1</a>
+                    <a href="">정렬2</a>
+                </header>
+            </section>
+
+            <section id="menu-card-list" class="menu-card-list">
+                <h1 class="d:none">메뉴 목록</h1>
+                <div class="content fade">
+                    <section class="menu-card" th:each="menu : ${menus}">
+                        <h1>
+                            <a class="heading-3" th:href="@{detail(id=${menu.id})}" th:text="${menu.korName}">카페라떼2</a></h1>
+                        <h2 class="heading-2 font-weight:normal color:base-5"  th:text="${menu.engName}">Cafe Latte</h2>
+                        <div class="price-block d:flex align-items:flex-end"><span class="font-weight:bold"  th:text="${menu.price}">4,500</span>원<span class="soldout-msg ml:auto mr:auto md:d:none">SOLD OUT</span></div>
+                        <div class="img-block">
+                            <a th:href="@{detail(id=${menu.id})}"><img src="/image/menu/8.jpg"></a>
+                        </div>
+                        <div class="like-block d:flex justify-content:flex-end">
+                            <a class="icon icon-heart icon-color:base-4" href="">좋아요</a>
+                            <span class="font-weight:bold ml:1" th:text="${menu.likeCount}">2</span>
+                        </div>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <button>삭제</button>
+                        </div>
+                        <div class="pay-block d:flex">
+                            <!-- <a class="icon md:icon:none icon-cart icon-color:base-0 color:base-0 btn-type:icon btn-cart md:btn-type:text" href="">담기</a> -->
+                            <form action="/cart/add-menu" method="post" style="display: contents;">
+                                <input type="hidden" name="id" th:value="${menu.id}">
+                                <button 
+                                th:data-id="${menu.id}"
+                                th:data-korname="${menu.korName}"
+                                th:data-engname="${menu.engName}"
+                                th:data-price="${menu.price}"
+                                th:data-regdate="${menu.regDate}"
+                                th:data-img="${menu.img}"
+                                th:data-categoryid="${menu.categoryId}"
+                                class="icon md:icon:none icon-cart icon-color:base-0 color:base-0 btn-type:icon btn-cart md:btn-type:text">담기</button>
+                            </form>
+                            <a class="icon md:icon:none icon-card icon-color:base-0 color:base-0 btn-type:icon btn-card md:btn-type:text" href="">주문하기</a>
+                            </div>
+                        </section>
+
+                    </div>
+                </section>
+            </section>
+
+        
+            <section class="mb:5 mt:3">
+                <h1 class="d:none">페이저</h1>
+                <ul class="n-pager" style="display: flex; justify-content: center;"
+
+                    th:with="page=${param.p} eq null ? 1 : ${{param.p}}
+                            ,temp=(${page}-1)/5
+                            ,startnum=${T(java.lang.Math).floor(temp)} * 5 + 1
+                            ,temp1 = ${count/6}
+                            ,lastnum=${count} mod 6 > 0 ? ${temp1} + 1 : ${temp1}
+                            ,endnum=${startnum+4} lt ${lastnum} ? ${startnum+4} : ${lastnum}
+                            ">
+                    <li>
+                        <span th:if="${page} lt 6">이전</span>
+                        <a href="list?p=5"
+                        th:if="${page} ge 6">이전</a>
+                    </li>
+
+                    <li
+                        th:each="n : ${#numbers.sequence(startnum, endnum)}"
+                        th:class="${{param.p}} == ${n} ? 'active'">
+                        <span th:if="${n} eq ${{param.p}}" th:text="${n}">1</span>
+                        <a
+                            th:if="${n} ne ${{param.p}}"
+                            href="list?p=1"
+                            th:href="@{./list(p=${n})}"
+                            th:text="${n}">1</a>
+                    </li>
+                    <li>
+                        <span th:if="${startnum+4} gt ${lastnum}">다음</span>
+                        <a href="list?p=6" 
+                        th:href="@{./list(p=${startnum}+5)}"
+                        th:if="${startnum+4} lt ${lastnum}">다음</a >
+                    </li>
+                </ul>
+            </section>
+        </section>
+    </main>
+</body>
+</html>
