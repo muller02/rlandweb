@@ -1,3 +1,175 @@
+// Arrow Function
+{
+    {
+        let arr = [2,3,4,5,1,2,3];
+        arr.sort((a,b)=>a-b);
+        console.log(arr);
+        arr.sort((a,b)=>b-a);
+        console.log(arr);
+    }
+    {
+        let arr = [[2,3],[4,5,1],[1,3]];
+        arr.sort((a,b)=>a[0]-b[0]);
+        console.log(arr);
+        // arr.sort((a,b)=>b[0]-a[0]);
+        // console.log(arr);
+    }
+    // 함수와 람다식의 차이점
+    // 1. this, super 가 없다 ( 생성자 또는 멤버 메소드로 사용될 수 없다. )
+    // 2. arguments 콜렉션이 없다. ( 함수 모듈로 사용될 수 없다. 함수 지역화가 안된다. = 코드를 나누는 역할자로 사용하지 않는다. )
+    // 3. new.target이 없다. ( new 연산자로 생성할 수 없다. )
+
+    {
+        let exam = {
+            kor:20,
+            eng:10,
+            total:()=>{
+                console.log(this.x, this.y);
+                return this.kor+this.eng;
+            },
+            // total2:function(){
+            //     console.log("오우~");
+            // },
+            // avg:()=>{
+            //     console.log("잉");
+            //     console.log("잉", total2());
+            //     console.log("잉", this.total());
+            // }
+        };
+        // this가 있다는 말은 total() 메소드를 호출할 때 exam을 this로 받는다는 것을 말함.
+        // Arrow Function은 exam을 못 받음.
+        // 따라서 total() 메소드의 연산은 undefined+undefined가 되어서 NaN이 된다.
+        console.log("람다식?? =",exam.total());
+
+        // 일반 함수로 사용할 수 있나??
+        // this를 사용할 일이 없고 객체와 상관없다면 깔끔하고 더 좋네~~
+        // this 사용하기 전의 고전적인 함수 구현을 하는 것 같아서 순수한 함수가 필요할 땐 이걸 쓰자 ^^
+        {
+            // arguments 배열은 없지만 rest parameters 별칭을 써서 받으면 됨 !!
+            let add = (a, b, ...args)=>{
+                console.log("람다 add args length = ",args.length);
+                return a+b;
+            };
+            console.log("람다 add 1,2,3 = ",add(1,2,3));
+        }
+        // 함수를 Arrow Function으로 바꿀 수 있나?
+        {
+            let exam = {
+                kor:20,
+                eng:10,
+                total:()=>{console.log("람다 total= ",this.kor, this)},
+                delayedPrint(){ // exam.delayedPrint() -> this => exam
+
+                    // 함수만 호출했기 때문에 this = window
+                    // exam인 this를 주고 싶다면 .bind(this)를 통해 this => exam
+                    // let kor = this.kor;
+                    setTimeout(function(){
+                        console.log("딜레이 펑션일 때.......", this.kor);
+                    }, 3000);
+                    setTimeout(function(){
+                        console.log("딜레이 펑션에 this 바인딩했을 때.......", this.kor, this);
+                    }.bind(this), 3000);
+                    setTimeout(()=>{
+                        console.log("딜레이 람다일 때.......", this.kor, this);
+                    }, 3000);
+
+                    // let f1 = function() {
+                    //     console.log(this);
+                    //     console.log("옝????");
+                    // }
+                },
+            };
+            exam.delayedPrint();
+            exam.total();
+            
+
+            let f1 = function(){};
+            // 1. f1(); this => window
+            // 2. exam.f1(); this => exam
+            // 3. f1().apply(exam); this => exam
+
+
+            let total =  function(){
+                return this.kor + this.eng;
+            };
+
+            // total에서의 this => window
+            console.log("total = ", total());
+
+            // 1 방법 : apply에서의 this => exam
+            // this 외에 인자를 더 전달해야할 때 배열로 전달해야함
+            // apply(this로 들어갈 객체, [a, b])
+            console.log("apply = ", total.apply(exam));
+
+            // 2 방법 : call에서의 this => 던져준 객체
+            // this 외에 인자를 더 전달해야할 때 나열해주면 됨
+            // call(this로 들어갈 객체, a, b)
+            console.log("call = ", total.call({kor:100, eng:90}));
+
+            // 3 방법 : bind 
+            let aa = {
+                name:"자장면",
+                closeCallback(){
+                    console.log("name = ", this.name);
+                }
+            };
+            
+            // aa.closeCallback은 함수만 전달할 뿐 aa를 함께 전달하지 않는다.
+            // let bb =  aa.closeCallback();
+            // 함수에 .bind(this) 해주어야 this를 갖는다.
+            let bb =  aa.closeCallback.bind(aa);
+            
+            bb();
+
+        }
+        
+        
+    }
+
+}
+
+// Default value
+{
+    // function add(x, y=10, z){
+    //     console.log("add = ",x,y,z);
+    // }
+    function getCount(){
+        return 3;
+    }
+
+    // 값을 리턴받는 함수도, 같은 매개변수도 인자의 기본값으로 설정할 수 있다.
+    function add(x, y=10, z=getCount(), a=z+1){
+        console.log("length = ",arguments.length);
+        console.log("add = ",x,y,z,a);
+
+        console.log("인자값 바꾸기 전",
+                    x == arguments[0],
+                    x === arguments[0],
+                    y == arguments[1],
+                    y === arguments[1],
+                    typeof arguments[1]
+                );
+        x=60;
+        y=11;
+        console.log("인자값 바꾼 후",
+                    x == arguments[0],
+                    x === arguments[0],
+                    y == arguments[1],
+                    y === arguments[1],
+                );
+    }
+
+    // null은 값으로 인식??
+    // add(10, null, 30);
+    // add(10, undefined, 30);
+
+    // arguments는 진짜로 메소드 호출 시 받은 인자 개수만 세어줌
+    // 메소드에서 정의한 기본값은 받은 인자로 쳐주지 않음 !
+    add(10);
+    // add(10, 30);
+    // add(undefined);
+}
+
 //Rest Parameters & Spread Operater
 {
     // args라는 별칭으로 변수로 받은 인자를 제외한 나머지 인자들을 받아줌
@@ -14,6 +186,16 @@
     console.log("sum = ", sum(kors[0],kors[1],kors[2]));
     // spread auto
     console.log("sum = ", sum(...kors));
+
+    let arr1 = [2,3,4];
+    // let arr2 = [5, 6, ...arr1];
+    // let arr3 = {"kor":[2,3,4], "eng":3};
+    // let arr2 = [5, 6, ...arr3["kor"]];
+    // console.log(arr3["kor"]);
+    let arr2 = [5, 6, ...arr1];
+
+    console.log("arr2 = ",arr2);
+
 }
 // 이전 출력
 {
