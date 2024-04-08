@@ -1,3 +1,55 @@
+// Inheritance
+{
+    class Exam{
+        #kor
+        #eng
+        #math;
+        
+        // 개체 내부에서 필드에 #을 붙여 밖에서 사용x, 내부에서만 사용가능
+        constructor(kor=2,eng=0,math=0){
+            this.#kor = kor;
+            this.eng = eng;
+            this.math = math;
+        }
+        get kor(){
+            return this.#kor;
+        }
+        set kor(value){
+            this.#kor = value;
+        }
+        // private method = #total()
+        total(){
+            return this.kor+this.eng+this.math;
+        }
+    }
+
+    // 상속
+    class NewlecExam extends Exam{
+        #com
+        constructor(com=3){
+            // 상속시 무조건 부모의 super()를 구현해줘야함
+            super();
+            this.#com = com;
+        }
+        // 오버라이드하지 않았을때도 this는 부모것을 잘 찾아옴
+        total(){
+            return super.total()+this.#com;
+        }
+        thisAvg(){
+            console.log("뉴렉토탈",this.total());
+            return this.total() / 4;
+        }
+        superAvg(){
+            console.log("이그잼토탈",super.total());
+            return super.total()/ 4;
+        }
+    }
+    console.log("NewlecExam().total() = ",new NewlecExam().total());
+    console.log("NewlecExam().thisAvg() = ",new NewlecExam().thisAvg());
+    console.log("NewlecExam().superAvg() = ",new NewlecExam().superAvg());
+
+}
+
 // Class
 {
     class Exam{
