@@ -1,4 +1,36 @@
+// Symbol + Computed Property
+// Symbol = Standard Built-in objects
+// 카메라(client, controller)가 정의(interface)하고 렌즈(Imp)가 구현함
+// 약속을 정의하는 함수는 Symbol 변수로 정의함. (key를 변수화해서 사용하는 원리)
+// 개체를 구현하는 곳에서 정해주고, 내부에서만 사용해주고 밖에서는 메소드로 실행하는게 바람직할듯
+{
+    const getList = Symbol();
+    console.log("typeof getList = ",typeof getList);
+
+    class NoticeServiceImp{
+        [getList](){
+            return "hehehe i am symbol";
+        }
+    }
+
+    class NoticeController{
+        
+        constructor(){
+            this.service = new NoticeServiceImp();
+        }
+
+        printList(){
+            return this.service[getList]();
+        }
+
+    }
+
+    let controller = new NoticeController();
+    console.log("printList = ",controller.printList());
+}
 // Inheritance
+// js는 형식으로 변수선언하지 않고 var, let, const로만 선언할 수 있기 때문에
+// 다형성을 지원하지 않음. 그러나 ... 희한하게 지원을 하긴 한다. = Symbol
 {
     class Exam{
         #kor
