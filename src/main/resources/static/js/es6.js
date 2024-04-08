@@ -1,3 +1,20 @@
+
+//Set, List, Map Collection
+{
+    // let set = new Set();
+    let set = new Set([3,4,2,2,3,4,5,6,6,3,2,7]);
+    console.log(set.size);
+    
+    set.delete(2);
+    console.log(set.size);
+    
+    set.add(10);
+    console.log(set.size);
+    
+    set.clear();
+    console.log(set.size);
+}
+
 // Symbol + Computed Property
 // Symbol = Standard Built-in objects
 // 카메라(client, controller)가 정의(interface)하고 렌즈(Imp)가 구현함
