@@ -1,5 +1,77 @@
 // Class
 {
+    class Exam{
+
+        static #staticVariable;
+
+        static{
+            this.#staticVariable = 30;
+        }
+        static get staticVariable(){
+            return Exam.#staticVariable;
+        }
+        constructor(kor=0, eng=0, math=0){
+            this.kor = kor;
+            this.eng = eng;
+            this.math = math;
+        }
+
+        total(){
+            return this.kor + this.eng + this.math;
+        }
+    }
+    
+    function createExam(){
+        return class Exam{
+            //class안에서만 사용할 수 있는 변수: 앞에 # 적어줘야 됨.
+            #kor
+            #eng;
+            #math;
+
+            constructor(kor=0, eng=0, math=0){
+                this.#kor = kor;
+                this.#eng = eng;
+                this.#math = math;
+            }
+
+            // getkor(){
+            //     return this.#kor;
+            // }
+            get kor(){
+                return this.#kor;
+            }
+            set kor(value){
+                this.#kor = value;
+            }
+    
+            total(){
+                return this.#kor + this.#eng + this.#math;
+            }
+        }
+    }
+    // 변수로 객체를 만드는 괴상함. 쓰지말.......
+    let ExamClass = createExam();
+    let examclass = new ExamClass(10,40,30);
+    console.log(`examclass.total(): ${examclass.total()}`);
+    
+    // getter setter 사용방식
+    // console.log(`getKor(): ${examclass.getkor()}`);
+    examclass.kor++; //get kor() 쓴거임.
+    console.log(`get kor(): ${examclass.kor}`);
+    
+    let exam = new Exam(10,20,30);
+    console.log(`class Exam total() : ${exam.total()}`);
+    console.log(`typeof Exam : ${typeof Exam}`);
+    console.log(`typeof exam : ${typeof exam}`);
+    
+    // static 사용하기
+    // 객체를 통한게 아니라 개체명을 통해서 사용할 수 있어야 하는 것이 포인트!
+    // console.log(`Exam.#staticVariable: ${Exam.getStaticVariable()}`);
+    console.log(`Exam.#staticVariable: ${Exam.staticVariable}`);
+
+}
+
+{
     // 타입정의가 안돼... 그래서 생성자를 return하게 만들어~
     function createExam(){
 
@@ -20,6 +92,7 @@
             set kor(value){
                 this.#kor = value;
             }
+            // private method = #total()
             total(){
                 return this.kor+this.eng+this.math;
             }
