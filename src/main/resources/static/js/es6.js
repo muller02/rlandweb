@@ -1,3 +1,43 @@
+// Class
+{
+    // 타입정의가 안돼... 그래서 생성자를 return하게 만들어~
+    function createExam(){
+
+        return class Exam{
+            #kor
+            #eng
+            #math;
+            
+            // 개체 내부에서 필드에 #을 붙여 밖에서 사용x, 내부에서만 사용가능
+            constructor(kor=2,eng=0,math=0){
+                this.#kor = kor;
+                this.eng = eng;
+                this.math = math;
+            }
+            get kor(){
+                return this.#kor;
+            }
+            set kor(value){
+                this.#kor = value;
+            }
+            total(){
+                return this.kor+this.eng+this.math;
+            }
+        }
+    }
+    //strict모드 = 중복변수x
+    // 변수로 객체를 만드는 괴상한 코드,, 누더기자바스크립트 누크립트
+    let ExamClass = createExam();
+    let exam = new ExamClass();
+    console.log("ExamClass total : ",exam.total());
+    exam.kor++;
+    // let kor = exam.kor;
+    // kor++;
+    console.log(exam.kor);
+    // console.log(kor);
+
+}
+
 // Arrow Function
 {
     {
