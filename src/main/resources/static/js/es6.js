@@ -7,17 +7,23 @@
             this.math=30;
             this.current = 0;
         }
-        // iterator를 하드코딩으로 구현한것
+        // Symbol.iterator를 return 받는 객체여야 iterator 기능을 사용할 수 있음.
+        [Symbol.iterator](){
+            return this;
+        }
         next(){
             this.current++;
             switch(this.current){
-                case 1 : return this.kor;
-                case 2 : return this.eng;
-                case 3 : return this.math;
+                case 1 : return {done:false, value:this.kor};
+                case 2 : return {done:false, value:this.eng};
+                case 3 : return {done:false, value:this.math};
+                case 4 : return {done:true, value:-1};
              }
         };
     }
     let exam = new Exam();
+    for(let n of exam)
+        console.log("it =",n);
     console.log(exam.next());
     console.log(exam.next());
     console.log(exam.next());
