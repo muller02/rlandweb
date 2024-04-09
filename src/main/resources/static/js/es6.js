@@ -21,11 +21,17 @@
 // 약속을 정의하는 함수는 Symbol 변수로 정의함. (key를 변수화해서 사용하는 원리)
 // 개체를 구현하는 곳에서 정해주고, 내부에서만 사용해주고 밖에서는 메소드로 실행하는게 바람직할듯
 {
-    const getList = Symbol();
-    console.log("typeof getList = ",typeof getList);
+
+    class NoticeService{
+        static getList = Symbol();
+        static getById = Symbol();
+    }
+
+    // const getList = Symbol();
+    console.log("typeof getList = ",typeof NoticeService.getList);
 
     class NoticeServiceImp{
-        [getList](){
+        [NoticeService.getList](){
             return "hehehe i am symbol";
         }
     }
@@ -37,7 +43,7 @@
         }
 
         printList(){
-            return this.service[getList]();
+            return this.service[NoticeService.getList]();
         }
 
     }
