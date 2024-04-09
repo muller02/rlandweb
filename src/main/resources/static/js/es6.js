@@ -1,18 +1,73 @@
+// Iterator, Generator
+{
+    class Exam{
+        constructor(){
+            this.kor=10;
+            this.eng=20;
+            this.math=30;
+            this.current = 0;
+        }
+        // iterator를 하드코딩으로 구현한것
+        next(){
+            this.current++;
+            switch(this.current){
+                case 1 : return this.kor;
+                case 2 : return this.eng;
+                case 3 : return this.math;
+             }
+        };
+    }
+    let exam = new Exam();
+    console.log(exam.next());
+    console.log(exam.next());
+    console.log(exam.next());
+
+}
 
 //Set, List, Map Collection
 {
+    //map = 임시객체를 만들 때 주로 사용
+    let map = new Map();
+    map.set("id", 1);
+    map.set("title", "Hello");
+
+    // 인덱스를 찾을 필요가 없을때 forEach
+    // callback 말고 람다식 쓰는이유 : 콜백은 쌓여서 부하를 일으킴
+    // ===================================
+    map.forEach((v, k)=>{
+        console.log("과거의 잔재... forEach = ",k, v);    
+    });
+
+
+    // 뽀개기 미쳣스
+    // ===================================
+    for(let [k,v] of map.entries())
+        console.log("옴맴매", k, v);
+
+    for(var k of map.keys())
+        console.log(k," = ", map.get(k));
+    console.log(map.entries());
+    console.log("맵출력");
+
+    // ===========================================================
     // let set = new Set();
     let set = new Set([3,4,2,2,3,4,5,6,6,3,2,7]);
-    console.log(set.size);
+    // console.log(set.size);
     
-    set.delete(2);
-    console.log(set.size);
+    // set.delete(2);
+    // console.log(set.size);
     
-    set.add(10);
-    console.log(set.size);
+    // set.add(10);
+    // console.log(set.size);
     
-    set.clear();
-    console.log(set.size);
+    // set.clear();
+    // console.log(set.size);
+
+    // map, array, set 나열하는 for of <- 컬렉션과 함께 나옴.
+    // iterator를 구현해야함 -> 객체도 iterator를 구현한다면 for of 사용 가능
+    for(let n of set)
+        console.log("n of set = ",n);
+
 }
 
 // Symbol + Computed Property
