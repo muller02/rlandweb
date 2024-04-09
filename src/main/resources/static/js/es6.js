@@ -1,32 +1,79 @@
 // Iterator, Generator
 {
+    //Generator를 이용한 Iterator 구현방법
     class Exam{
         constructor(){
             this.kor=10;
             this.eng=20;
             this.math=30;
-            this.current = 0;
         }
-        // Symbol.iterator를 return 받는 객체여야 iterator 기능을 사용할 수 있음.
-        [Symbol.iterator](){
-            return this;
+        *[Symbol.iterator](){
+            yield this.kor;
+            yield this.eng;
+            yield this.math;
         }
-        next(){
-            this.current++;
-            switch(this.current){
-                case 1 : return {done:false, value:this.kor};
-                case 2 : return {done:false, value:this.eng};
-                case 3 : return {done:false, value:this.math};
-                case 4 : return {done:true, value:-1};
-             }
-        };
+
+        // return 내부의 function은 this가 윈도우이므로, 전역으로 this를 받아줘야 사용 가능
+        entries(){
+            let [kor, eng, math] = this;
+            return {
+                *[Symbol.iterator](){
+                   yield ["kor", kor];
+                   yield ["eng", eng];
+                   yield ["math", math];
+                }
+            };
+        }
     }
+
     let exam = new Exam();
+    for(let [k,v] of exam.entries())
+        console.log("ㅋ밸류 = ",k,v);
+
+
     for(let n of exam)
-        console.log("it =",n);
-    console.log(exam.next());
-    console.log(exam.next());
-    console.log(exam.next());
+        console.log("gen = ",n);
+    
+    // Itertator를 객체변수에 적용하여 function을 만들어 주는 방법
+    let iter = {kor:1, eng:2};
+    iter[Symbol.iterator] = function* (){
+        yield this.kor;
+        yield this.eng;
+    }
+
+    for(let n of iter)
+        console.log("iter = ",n);
+
+
+
+    //Iterator를 활용해서 매땅헤딩 ㄱ
+    // class Exam{
+    //     constructor(){
+    //         this.kor=10;
+    //         this.eng=20;
+    //         this.math=30;
+    //         this.current = 0;
+    //     }
+    //     // Symbol.iterator를 return 받는 객체여야 iterator 기능을 사용할 수 있음.
+    //     [Symbol.iterator](){
+    //         return this;
+    //     }
+    //     next(){
+    //         this.current++;
+    //         switch(this.current){
+    //             case 1 : return {done:false, value:this.kor};
+    //             case 2 : return {done:false, value:this.eng};
+    //             case 3 : return {done:false, value:this.math};
+    //             case 4 : return {done:true, value:-1};
+    //          }
+    //     };
+    // }
+    // let exam = new Exam();
+    // for(let n of exam)
+    //     console.log("it =",n);
+    // console.log(exam.next());
+    // console.log(exam.next());
+    // console.log(exam.next());
 
 }
 
