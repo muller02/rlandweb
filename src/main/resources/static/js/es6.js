@@ -4,22 +4,26 @@
     class MenuRepository{
 
         findAllPromise(){
-            return new Promise((resolve)=>{
+            // await 걸면 response, 안걸면 promise 객체 리턴
+            // response에서 값을 꺼내야 합...합 고.
+            return fetch("/api/menus");
+
+            // return new Promise((resolve)=>{
                 
-                const xhr = new XMLHttpRequest();
-                xhr.withCredentials = true;
+            //     const xhr = new XMLHttpRequest();
+            //     xhr.withCredentials = true;
 
-                xhr.onload = function(){
-                    const list = JSON.parse(this.responseText);
-                    resolve(list);
-                }
+            //     xhr.onload = function(){
+            //         const list = JSON.parse(this.responseText);
+            //         resolve(list);
+            //     }
 
-                const url = `http://localhost:8082/api/menus`;
-                const method = "GET";
+            //     const url = `http://localhost:8082/api/menus`;
+            //     const method = "GET";
 
-                xhr.open(method, url);
-                xhr.send();
-            });
+            //     xhr.open(method, url);
+            //     xhr.send();
+            // });
         };
 
         findAll(resolve){
@@ -43,8 +47,10 @@
     // 함수 안에서 결과를 받고자 하는 짧은 비동기일 경우에 async, await 사용하는 것도 좋은 것 같다.
     async function printList(){
         let repository = new MenuRepository();
-        let list = await repository.findAllPromise();
-        console.log("printList = ", list);
+        let response = await repository.findAllPromise();
+        // let list = await response.json();
+        let list = response.json().then(list=>list);
+        console.log("printList = ", await list);
     }
 
     printList();
@@ -57,7 +63,13 @@
     // 연속된 어떤 절차가 있다면, then으로 추가/삭제 하는 것도 좋은 것 같다.
     // 이때, 어떠한 기능이 추가적으로 필요하다면 then function을 추가하면 되므로 코드수정을 하지 않아도 되네.
     promise
-    .then(list=>list[0])
+    .then(response=>{
+        return response.json();
+    })
+    .then(list=>{
+        console.log("response list = ", list);
+        return list[0]
+    })
     .then(menu=>menu.korName)
     .then(korName=>{console.log("korName = ", korName)});
 
