@@ -2,6 +2,26 @@
 {
     // 비동기 처리 함수 4 : 서비스 함수 예
     class MenuRepository{
+
+        findAllPromise(){
+            return new Promise((resolve)=>{
+                
+                const xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+
+                xhr.onload = function(){
+                    const list = JSON.parse(this.responseText);
+                    resolve(list);
+                }
+
+                const url = `http://localhost:8082/api/menus`;
+                const method = "GET";
+
+                xhr.open(method, url);
+                xhr.send();
+            });
+        };
+
         findAll(resolve){
             const xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
@@ -17,9 +37,31 @@
             xhr.open(method, url);
             xhr.send();
         }
+
     }
 
+    // 함수 안에서 결과를 받고자 하는 짧은 비동기일 경우에 async, await 사용하는 것도 좋은 것 같다.
+    async function printList(){
+        let repository = new MenuRepository();
+        let list = await repository.findAllPromise();
+        console.log("printList = ", list);
+    }
+
+    printList();
+    
     let repository = new MenuRepository();
+
+    // promise call method 1 : to seperate
+    let promise = repository.findAllPromise();
+
+    // 연속된 어떤 절차가 있다면, then으로 추가/삭제 하는 것도 좋은 것 같다.
+    // 이때, 어떠한 기능이 추가적으로 필요하다면 then function을 추가하면 되므로 코드수정을 하지 않아도 되네.
+    promise
+    .then(list=>list[0])
+    .then(menu=>menu.korName)
+    .then(korName=>{console.log("korName = ", korName)});
+
+    // promise 안 쓴 콜백 방식
     repository.findAll((list)=>{
         console.log(list);
     });
