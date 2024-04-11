@@ -1,16 +1,31 @@
 // Promise => 성공, 실패에 대한 이벤트 처리 로직을 분리하게 해주는 객체
 {
     // 비동기 처리 함수 2 : Promise 방식의 비동기 처리함수
-    function delayedPrint1(value, resolve){
-        
-        let rand = Math.floor(Math.random()*2000)+1000;
-        console.log("rand = ", rand);
+    function delayedPrint1(value){
 
-        setTimeout(function(){
-            console.log(value);
-            resolve();
-        }, rand);
+        const promise = new Promise((resolve, reject)=>{
+
+            let rand = Math.floor(Math.random()*2000)+1000;
+    
+            setTimeout(function(){
+                console.log(value);
+                resolve();
+            }, rand);
+
+        });
+        
+        return promise;
     }
+
+    let pr = delayedPrint1("hahahahah");
+    pr.then( ()=>{console.log("prited after");});
+
+    // 비동기 처리 함수 3 : async와 await를 이용한 동기식 호출이 가능하게 하기
+
+    (async ()=>{
+        await delayedPrint1("마기다려라 ㅋ");
+        console.log("넵~~");
+    })();
 
 
     // 비동기 처리 함수 1 :  콜백 방식의 비동기 처리함수
@@ -27,7 +42,7 @@
 
     // 호출하는 쪽의 콜백함수 중첩이 너무너무 복잡허다,,,
     // Promise를 써볼까나??^^
-    delayedPrint("Hello~", ()=>{console.log("prited after");});
+    // delayedPrint("Hello~", ()=>{console.log("prited after");});
     
 
 }
