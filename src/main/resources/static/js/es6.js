@@ -1,5 +1,29 @@
 // Promise => 성공, 실패에 대한 이벤트 처리 로직을 분리하게 해주는 객체
 {
+    // 비동기 처리 함수 4 : 서비스 함수 예
+    class MenuRepository{
+        findAll(resolve){
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.onload = function(){
+                const list = JSON.parse(this.responseText);
+                resolve(list);
+            }
+
+            const url = `http://localhost:8080/api/menus`;
+            const method = "GET";
+
+            xhr.open(method, url);
+            xhr.send();
+        }
+    }
+
+    let repository = new MenuRepository();
+    repository.findAll((list)=>{
+        console.log(list);
+    });
+
     // 비동기 처리 함수 2 : Promise 방식의 비동기 처리함수
     function delayedPrint1(value){
 
