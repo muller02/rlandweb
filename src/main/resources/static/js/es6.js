@@ -11,7 +11,7 @@
                 resolve(list);
             }
 
-            const url = `http://localhost:8080/api/menus`;
+            const url = `http://localhost:8082/api/menus`;
             const method = "GET";
 
             xhr.open(method, url);
