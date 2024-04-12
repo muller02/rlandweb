@@ -1,3 +1,40 @@
+// import asdf, {test2} from './module1.js';
+import asdf, {test2} from 'gm';
+// as로 중복되는 함수 이름에 별칭을 지어줌
+import aaaa, {test2 as bbbb} from './mudule2.js';
+// Module
+{
+    // export default는 중괄호로 뽀개기 해서 받을 수 없고, 따로 꺼내줘야함
+    // export 함수는 이름을 그대로 써야 꺼내올 수 있음
+    asdf();
+    test2();
+    // aaaa();
+    // bbbb();
+
+    let rand = 1;
+    if(rand==1){
+        import("./module1.js")
+        .then(({default:test1, test2})=>{
+            test1();
+            test2();
+            console.log("~~~");
+        });
+        // default 함수는 이름이 아니라 default라는 이름으로 가져올 수 있기 때문에
+        // 따로 별칭을 지어주거나 default로 호출해야 부를 수 있음
+        // import("./module1.js")
+        // .then((m1)=>{
+        //     m1.default();
+        //     m1.test2();
+        //     console.log("~~~");
+        // });
+        // import("./module1.js")
+        // .then(({test2})=>{
+        //     test2();
+        // });
+    }
+}
+
+
 // Promise => 성공, 실패에 대한 이벤트 처리 로직을 분리하게 해주는 객체
 {
     // 비동기 처리 함수 4 : 서비스 함수 예
@@ -479,7 +516,7 @@
             kor:20,
             eng:10,
             total:()=>{
-                console.log(this.x, this.y);
+                // console.log(this.x, this.y);
                 return this.kor+this.eng;
             },
             // total2:function(){
