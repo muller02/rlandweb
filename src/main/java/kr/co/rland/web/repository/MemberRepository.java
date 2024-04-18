@@ -7,6 +7,6 @@ import kr.co.rland.web.entity.Member;
 @Mapper
 public interface MemberRepository {
 
-    Member findByMemberName(String username);
+    Member findByUserName(String username);
     
 }
