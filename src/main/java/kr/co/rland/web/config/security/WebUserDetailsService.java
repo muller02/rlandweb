@@ -30,12 +30,12 @@ public class WebUserDetailsService implements UserDetailsService {
         
         Member member = repository.findByUserName(username);
         List<MemberRole> roles = memberRoleRepository.findAllByMemberId(member.getId());
-
-
+ 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
-
+        
+        for(MemberRole role : roles){
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
 
         WebUserDetails userDatails = new WebUserDetails();
         userDatails.setId(member.getId());

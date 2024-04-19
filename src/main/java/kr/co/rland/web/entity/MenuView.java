@@ -21,5 +21,6 @@ public class MenuView {
 	private Date regDate;
     private long categoryId;
 	private int likeCount;
+	private boolean liked;
 
 }

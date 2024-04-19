@@ -10,12 +10,13 @@
                 <ul class="d:none md:d:flex">
                     <li><a class="icon icon-cart icon-color:base-0" href="">장바구니</a></li>
                     <li><a class="icon icon-alert icon-color:base-0 icon-count-with" href="">알림<span>2</span></a></li>
+                    <!-- 타임리프 sec:authorize를 통해 사용자정보를 인증할 수 있다 -->
                     <li sec:authorize="isAnonymous()">
                         <a class="icon icon-person icon-color:base-0" href="/user/signin">로그인</a>
                     </li>
                     <li sec:authorize="isAuthenticated()">
-                        <!-- <span sec:authentication="name">이거 조진거임</span> -->
-                        <span th:text="${#authentication.name}">이거 조진거임</span>
+                        <span sec:authentication="principal.email">이거 조진거임</span>
+                        <!-- <span th:text="${#authentication.name}">이거 조진거임</span> -->
                         <a class="icon icon-sign-out icon-color:base-0" href="/user/signout">로그아웃</a>
                     </li>
                 </ul>

@@ -7,7 +7,8 @@
 	<select id="findAllByMemberId" resultType="MemberRole">
 		select 
 			*
-		from member_role
+		from 
+            member_role
         where
             member_id = #{id}
 	</select>

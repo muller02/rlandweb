@@ -64,7 +64,7 @@ public class MenuController {
             menus = service.getList(page);
             count = service.getCount();
         }
-
+        System.out.println(menus.get(0).isLiked());
         
         model.addAttribute("categories", categories);
         model.addAttribute("menus", menus);
