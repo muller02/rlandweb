@@ -38,12 +38,14 @@ public class MenuController {
 
         List<MenuView> menus = new ArrayList<>();
 
+        Long memberId = null;
+
         if(categoryId!=null)
-            menus = menuService.getList(page, categoryId);
+            menus = menuService.getList(memberId, page, categoryId);
         else if(query!=null)
-            menus = menuService.getList(page, query);
+            menus = menuService.getList(memberId, page, query);
         else
-            menus = menuService.getList(page);
+            menus = menuService.getList(memberId, page);
 
 
         return menus;

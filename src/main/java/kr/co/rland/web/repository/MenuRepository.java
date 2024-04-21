@@ -10,7 +10,7 @@ import kr.co.rland.web.entity.MenuView;
 @Mapper
 public interface MenuRepository {
     // @Select("SELECT * FROM menu")
-    List<MenuView> findAll(Long categoryId, String query, int offset, int size);
+    List<MenuView> findAll(Long memberId,Long categoryId, String query, int offset, int size);
     
     Menu findById(Long id);
     List<Menu> findAllByName(String name);

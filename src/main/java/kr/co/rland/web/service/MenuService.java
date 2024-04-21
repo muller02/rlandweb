@@ -7,11 +7,11 @@ import kr.co.rland.web.entity.MenuView;
 
 public interface MenuService {
 
-    List<MenuView> getList(int page);
+    List<MenuView> getList(Long memberId, Integer page);
 
-    List<MenuView> getList(int page, Long categoryId);
+    List<MenuView> getList(Long memberId, Integer page, Long categoryId);
     
-    List<MenuView> getList(int page, String query);
+    List<MenuView> getList(Long memberId, Integer page, String query);
     
     Menu getById(Long id);
     

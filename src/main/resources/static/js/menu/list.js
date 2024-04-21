@@ -87,47 +87,56 @@ window.addEventListener("load", function(){
 
     var queryForm = this.document.getElementById("query-form");
     var queryButton = queryForm.getElementsByClassName("icon-find")[0];
-    var q = queryForm.getElementsByClassName("q")[0];
+    // var q = queryForm.getElementsByClassName("q")[0];
     var menuSection = this.document.getElementById("menu-card-list");
     var menuContent = menuSection.getElementsByClassName("content")[0];
     
-    var basketSection = this.document.querySelector(".basket-status");
-    var cartTotalPrice = basketSection.querySelector(".price");
-    var cartCount = basketSection.querySelector(".icon-basket_outline");
+    // var basketSection = this.document.querySelector(".basket-status");
+    // var cartTotalPrice = basketSection.querySelector(".price");
+    // var cartCount = basketSection.querySelector(".icon-basket_outline");
 
 
     menuContent.onclick = function(e){
-        if(!e.target.classList.contains("btn-cart"))
+
+        let classes = e.target.classList;
+        let isVaild = classes.contains("btn-cart") || classes.contains("icon:heart");
+        
+        if(!isVaild)
             return;
-        
-        var item = {};
-        
-        item.id = e.target.dataset.id;
-        item.korName = e.target.dataset.korname;
-        item.engName = e.target.dataset.engname;
-        item.price = e.target.dataset.price;
-        // item.regDate = e.target.dataset.regdate;
-        item.img = e.target.dataset.img;
-        item.categoryId = e.target.dataset.categoryid;
-        
+
+        console.log(isVaild);
+    
+        {
+            var item = {};
+            
+            item.id = e.target.dataset.id;
+            item.korName = e.target.dataset.korname;
+            item.engName = e.target.dataset.engname;
+            item.price = e.target.dataset.price;
+            // item.regDate = e.target.dataset.regdate;
+            item.img = e.target.dataset.img;
+            item.categoryId = e.target.dataset.categoryid;
+            
+       
+    
+            cookie.addItem("menus",item);
+
+            cookie.save();
+
+            // console.log(cookie.map["menus"].le);
+
+            // var arr = cookie.map["menus"];
+            // var totalCount = arr.length;
+            // var price = 0;
+
+            // arr.forEach(a=> 
+            //     price += parseInt(a["price"])
+            // );
+
+            // cartTotalPrice.innerHTML = price; 
+            // cartCount.innerHTML = totalCount;
+        }
         e.preventDefault();
- 
-        cookie.addItem("menus",item);
-
-        cookie.save();
-
-        // console.log(cookie.map["menus"].le);
-
-        var arr = cookie.map["menus"];
-        var totalCount = arr.length;
-        var price = 0;
-
-        arr.forEach(a=> 
-            price += parseInt(a["price"])
-        );
-
-        cartTotalPrice.innerHTML = price; 
-        cartCount.innerHTML = totalCount;
     };
 
 
@@ -173,7 +182,7 @@ window.addEventListener("load", function(){
         // console.log(e.target.dataset.id);
 
         var id = e.target.dataset.id;
-        var url = `http://localhost:8080/api/menus?q=${q.value}&c=${id}&p=1`;
+        var url = `http://localhost:8082/api/menus?q=${q.value}&c=${id}&p=1`;
 
         requestXHR(url, function(list){
             bind(list);
@@ -185,7 +194,7 @@ window.addEventListener("load", function(){
 
         e.preventDefault();                                
 
-        var url = `http://localhost:8080/api/menus?q=${q.value}&p=1`;
+        var url = `http://localhost:8082/api/menus?q=${q.value}&p=1`;
         requestXHR(url, function(list){
             bind(list);
             console.log("검색목록 리로드");

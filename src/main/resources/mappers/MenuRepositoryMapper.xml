@@ -24,13 +24,14 @@
 				m.img AS img,
 				m.reg_date AS reg_date,
 				m.category_id AS category_id,
-				COUNT(ml.menu_id) AS like_count,
-				nvl(ml.member_id=3,0) liked
+				COUNT(ml.menu_id) AS like_count, 
+				nvl(ml.member_id=#{memberId},0) liked
 			FROM
 				(menu m
 				LEFT JOIN menu_like ml ON (m.id = ml.menu_id))
 			GROUP BY m.id
 			)    mv
+			order by reg_date desc
 		<where>
 			<if test="categoryId != null">
 				mv.category_id = #{categoryId}

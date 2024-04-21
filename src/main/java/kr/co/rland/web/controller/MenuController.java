@@ -3,10 +3,12 @@ package kr.co.rland.web.controller;
 import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import kr.co.rland.web.config.security.WebUserDetails;
 import kr.co.rland.web.entity.Category;
 import kr.co.rland.web.entity.Menu;
 import kr.co.rland.web.entity.MenuView;
@@ -38,7 +41,8 @@ public class MenuController {
         @RequestParam(name = "q", required = false) String query, 
         @RequestParam(name = "p", required = false, defaultValue = "1") Integer page,
         @CookieValue(value = "menus", required = false) String menusCookie, 
-        Model model){
+        Model model,
+        @AuthenticationPrincipal WebUserDetails userDetails){
 
     
 
@@ -49,19 +53,22 @@ public class MenuController {
         // System.out.println("p = " + page);
 
         List<Category> categories = cateService.getList();
-        
+        Long memberId = null;
+        if(userDetails != null)
+            memberId = userDetails.getId();
+            
         int count = 0;
         if(categoryId!=null){
-            menus = service.getList(page, categoryId);
+            menus = service.getList(memberId, page, categoryId);
             count = service.getCount(categoryId);
         }
         else if(query!=null){
-            menus = service.getList(page, query);
+            menus = service.getList(memberId, page, query);
             count = service.getCount(query);
         }
         else{
             
-            menus = service.getList(page);
+            menus = service.getList(memberId, page);
             count = service.getCount();
         }
         System.out.println(menus.get(0).isLiked());

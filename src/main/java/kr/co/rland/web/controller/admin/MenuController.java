@@ -48,19 +48,20 @@ public class MenuController {
         // System.out.println("p = " + page);
 
         List<Category> categories = cateService.getList();
-        
+        Long memberId = null;
+
         int count = 0;
         if(categoryId!=null){
-            menus = service.getList(page, categoryId);
+            menus = service.getList(memberId, page, categoryId);
             count = service.getCount(categoryId);
         }
         else if(query!=null){
-            menus = service.getList(page, query);
+            menus = service.getList(memberId, page, query);
             count = service.getCount(query);
         }
         else{
             
-            menus = service.getList(page);
+            menus = service.getList(memberId, page);
             count = service.getCount();
         }
 
