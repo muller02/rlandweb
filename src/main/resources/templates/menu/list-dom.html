@@ -9,9 +9,7 @@
     <link href="/css/components/menu/menu-filter.css" rel="stylesheet" type="text/css">
     <link href="/css/components/menu/basket-status.css" rel="stylesheet" type="text/css">
     <link href="/css/components/menu/list.css" rel="stylesheet" type="text/css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <!-- module system 기반의 Vue.js는 type=module을 명시해주어야 정상 사용 가능 -->
-    <script type="module" src="/js/menu/list-vue.js"></script>
+    <script src="/js/menu/list-dom.js" defer></script>
 </head>
 <body>
 
@@ -20,7 +18,7 @@
             <h1 class="d:none">메뉴 검색 목록</h1>
             <div>
                 <section class="menu-filter">
-                    <h>Rland Menu<span class="d:none">검색</span></h'1>
+                    <h1>Rland Menu<span class="d:none">검색</span></h1>
             
                     <nav class="category-filter">
                         <h1 class="d:none">카테고리 검색 메뉴 목록</h1>
@@ -45,9 +43,9 @@
                         <form action="" method="get">
                             <fieldset>
                                 <legend class="d:none">이름 검색</legend>
-                                <input v-model="query" class="q" type="text" placeholder="메뉴 검색" name="q" th:value="${query}">
+                                <input class="q" type="text" placeholder="메뉴 검색" name="q" th:value="${query}">
                                 <!-- <input type="hidden" name="c" value="" th:value="${param.c}"> -->
-                                <button @click.prevent="queryClickHandler" class="icon icon-find">검색</button>
+                                <button class="icon icon-find">검색</button>
                             </fieldset>
                         </form>
                     </section>

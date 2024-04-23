@@ -194,7 +194,7 @@ window.addEventListener("load", function(){
 
         e.preventDefault();                                
 
-        var url = `http://localhost:8082/api/menus?q=${q.value}&p=1`;
+        var url = `http://localhost:808/api/menus?q=${q.value}&p=1`;
         requestXHR(url, function(list){
             bind(list);
             console.log("검색목록 리로드");
