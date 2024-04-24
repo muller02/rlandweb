@@ -37,7 +37,7 @@
                             <fieldset>
                                 <legend class="d:none">이름 검색</legend>
                                 <input class="query-input" type="text" placeholder="메뉴 검색" name="q" value="">
-                                <button class="icon icon-find">검색</button>
+                                <button class="icon icon-find" @click.prevent="queryClickHandler">검색</button>
                             </fieldset>
                         </form>
                     </section>
@@ -48,20 +48,23 @@
                 <section class="menu-card-list" id="menu-card-list">
                     <h1 class="d:none">메뉴 목록</h1>
                     <div class="content fade">
-                        <section class="menu-card">
+                        <section class="menu-card"
+                            v-for="m in list"
+                        >
                             <h1>
-                                <a class="heading-3" href="detail.html">카페라떼1</a></h1>
-                            <h2 class="heading-2 font-weight:normal color:base-5">Cafe Latte</h2>
-                            <div class="price-block d:flex align-items:flex-end"><span class="font-weight:bold">4,500</span>원<span class="soldout-msg ml:auto mr:auto md:d:none">SOLD OUT</span></div>
+                                <a class="heading-3" :href="`detail?id=${m.id}`" v-text="m.korName">카페라떼1</a></h1>
+                            <h2 class="heading-2 font-weight:normal color:base-5" v-text="m.engName">Cafe Latte</h2>
+                            <div class="price-block d:flex align-items:flex-end"><span class="font-weight:bold" v-text="m.price">4,500</span>원<span class="soldout-msg ml:auto mr:auto md:d:none">SOLD OUT</span></div>
                             <div class="img-block">
-                                <a href="detail.html?id=1">
-                                    <img src="/image/menu/8.jpg" />                                      
+                                <!-- <a :href="`detail?id=${m.id}`"> -->
+                                <a :href="`detail?id=`+m.id">
+                                    <img :src="'/image/menu/product/'+m.img" />                                      
                                 </a>
                             </div>
                             <div class="like-block d:flex justify-content:flex-end">
                                 <a class="icon icon-heart icon-color:base-4"                                
-                                 href="">좋아요</a>
-                                <span class="font-weight:bold ml:1">2</span>                                
+                                 href="" :class="{ 'icon-heart-fill' : m.liked }">좋아요</a>
+                                <span class="font-weight:bold ml:1" v-text="m.likeCount">2</span>                                
                             </div>
                             <div>
                                 <button>삭제</button>
