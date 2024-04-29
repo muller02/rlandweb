@@ -1,0 +1,19 @@
+{
+  "name": "rland",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js",
+    "stop": "echo \"Error: no stop specified\" && exit 1",
+    "restart": "echo \"Error: no restart specified\" && exit 1",
+    "gogo": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect": "^3.7.0",
+    "server-static": "^2.0.5"
+  }
+}
