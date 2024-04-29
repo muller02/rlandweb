@@ -1,11 +1,11 @@
 const connect = require("connect");
 const path = require("path");
-const serverStatic = require("server-static");
+const serveStatic = require("serve-static");
 
 const app = connect();
 
 
-app.use(serverStatic(path.join(__dirname, "public")));
+app.use(serveStatic(path.join(__dirname, "public")));
 
 app.use("/index",(req, res)=>{
     res.end("index page");
