@@ -1,20 +1,14 @@
-const connect = require("connect");
-const path = require("path");
-const serveStatic = require("serve-static");
+const express = require("express");
 
-const app = connect();
+const server = express();
+server.listen(82);
 
+server
+.route("/index")
+.get((req,res)=>{
+    
+})
 
-app.use(serveStatic(path.join(__dirname, "public")));
+// server.use("/index", (req, res)=>{
 
-app.use("/index",(req, res)=>{
-    res.end("index page");
-});
-
-app.use("/menu/list",(req, res)=>{
-    res.end("munu list page");
-});
-
-app.listen(82);
-
-console.log("82포트 시작");
+// })
