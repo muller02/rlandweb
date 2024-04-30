@@ -60,7 +60,7 @@ Cookie.prototype = {
 
     },
     addItem:function(name, item){
-      var list = this.map[name];  
+        var list = this.map[name];  
         list.push(item);
     },
     set:function(name, value){
