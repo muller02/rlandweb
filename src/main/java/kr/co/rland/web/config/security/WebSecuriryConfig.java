@@ -1,7 +1,5 @@
 package kr.co.rland.web.config.security;
 
-import java.io.IOException;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,12 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @Configuration
 @EnableWebSecurity
@@ -31,6 +22,8 @@ public class WebSecuriryConfig {
 
     @Autowired
     private DataSource datasource;
+    @Autowired
+    private WebOauth2UserDetailsServie oauth2UserDetailsService;
 
     // Bcrypt 암호화를 쓰겠다는 인코딩 설정
     @Bean
@@ -53,6 +46,9 @@ public class WebSecuriryConfig {
                 // .successHandler(new AuthSuccessHandler())
                 .permitAll()
             )
+            .oauth2Login(config->config
+                .userInfoEndpoint(userInf->userInf
+                .userService(oauth2UserDetailsService)))
             .logout((logout) -> logout
                 .logoutUrl("/user/signout")
                 .logoutSuccessUrl("/index")
