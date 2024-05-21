@@ -15,8 +15,8 @@
                         <a class="icon icon-person icon-color:base-0" href="/user/signin">로그인</a>
                     </li>
                     <li sec:authorize="isAuthenticated()">
-                        <span sec:authentication="principal.email">이거 조진거임</span>
-                        <!-- <span th:text="${#authentication.name}">이거 조진거임</span> -->
+                        <!-- <span sec:authentication="principal.email">이거 조진거임</span> -->
+                        <span th:text="${#authentication.name}">이거 조진거임</span>
                         <a class="icon icon-sign-out icon-color:base-0" href="/user/signout">로그아웃</a>
                     </li>
                 </ul>
