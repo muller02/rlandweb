@@ -35,6 +35,11 @@ public class MenuController {
     @Autowired
     private CategoryService cateService;
 
+    @GetMapping("test")
+    public String test(){
+        return "test";
+    }
+
     @GetMapping("list-dom")
     public String listDom(
         @RequestParam(name = "c", required = false) Long categoryId, 
