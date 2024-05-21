@@ -2,18 +2,36 @@ package kr.co.rland.web.config.security;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-public class WebUserDetails implements UserDetails {
+public class WebUserDetails implements UserDetails, OAuth2User {
 
     private Long id;
     private String email;
     private String username;
     private String password;
     private List<GrantedAuthority> authorities;
+    private Map<String, Object> attributes;
+    private String name;
 
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+    @Override
+    public String getName() {
+        return name;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

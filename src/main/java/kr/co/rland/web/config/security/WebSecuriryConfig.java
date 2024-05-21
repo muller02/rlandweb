@@ -23,7 +23,10 @@ public class WebSecuriryConfig {
     @Autowired
     private DataSource datasource;
     @Autowired
-    private WebOauth2UserDetailsServie oauth2UserDetailsService;
+    private WebOauth2UserDetailsService oauth2UserDetailsService;
+
+    @Autowired
+    private LoginSuccessHandler loginSuccessHandler;
 
     // Bcrypt 암호화를 쓰겠다는 인코딩 설정
     @Bean
@@ -43,12 +46,13 @@ public class WebSecuriryConfig {
             )
             .formLogin((form) -> form
                 .loginPage("/user/signin")
-                // .successHandler(new AuthSuccessHandler())
+                .successHandler(loginSuccessHandler)
                 .permitAll()
             )
             .oauth2Login(config->config
                 .userInfoEndpoint(userInf->userInf
-                .userService(oauth2UserDetailsService)))
+                .userService(oauth2UserDetailsService))
+                .successHandler(loginSuccessHandler))
             .logout((logout) -> logout
                 .logoutUrl("/user/signout")
                 .logoutSuccessUrl("/index")

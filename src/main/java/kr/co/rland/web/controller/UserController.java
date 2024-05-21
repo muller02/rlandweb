@@ -22,6 +22,13 @@ public class UserController {
         return "user/signin";
     }
 
+    @GetMapping("signup")
+    public String signup(){
+
+
+        return "user/signup";
+    }
+
     // @PostMapping("signin")
     // public String signin(
     //         String username, 
