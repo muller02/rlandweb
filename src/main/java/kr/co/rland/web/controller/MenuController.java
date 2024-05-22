@@ -1,9 +1,5 @@
 package kr.co.rland.web.controller;
 
-import java.lang.reflect.Type;
-import java.net.URLDecoder;
-import java.nio.charset.Charset;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +11,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.rland.web.config.security.WebUserDetails;
 import kr.co.rland.web.entity.Category;
@@ -36,7 +30,16 @@ public class MenuController {
     private CategoryService cateService;
 
     @GetMapping("test")
+    @ResponseBody
     public String test(){
+        service.test();
+        return "test";
+    }
+    
+    @GetMapping("test2")
+    @ResponseBody
+    public String test2(){
+        service.test2();
         return "test";
     }
 

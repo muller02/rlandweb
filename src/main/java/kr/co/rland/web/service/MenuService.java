@@ -8,9 +8,7 @@ import kr.co.rland.web.entity.MenuView;
 public interface MenuService {
 
     List<MenuView> getList(Long memberId, Integer page);
-
     List<MenuView> getList(Long memberId, Integer page, Long categoryId);
-    
     List<MenuView> getList(Long memberId, Integer page, String query);
     
     Menu getById(Long id);
@@ -20,6 +18,9 @@ public interface MenuService {
     int getCount(String query);
 
     void add(Menu menu);
+
+    void test();
+    void test2();
 
     
 }

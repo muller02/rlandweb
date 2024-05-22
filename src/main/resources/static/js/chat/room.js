@@ -11,16 +11,16 @@ const TYPE_MESSAGE = 2;
 let sock = null;
 
 connButton.onclick=function(){
-    sock = new WebSocket("ws://192.168.0.54:8080/chat");
-    // sock = new WebSocket("ws://192.168.0.75:8082/chat");
-    // sock = new WebSocket("ws://localhost:8082/chat");
+    // sock = new WebSocket("ws://192.168.0.54:8080/chat");
+    sock = new WebSocket("ws://192.168.0.75:8082/chat");
+    // sock = new WebSocket("ws://192.168.0.46:8081/chat");
     sock.onopen = (e) => {
-        let name = nameInput.value;
         // JSON 으로 작성
-        let data = {type:TYPE_CONNECT, content:name};
+        let data = {type:TYPE_CONNECT, username : nameInput.value};
 
+        console.log(JSON.stringify(data));
         // 객체로 전달할 수 없으므로 문자열 파싱
-        sock.send(JSON.parse(data));
+        sock.send(JSON.stringify(data));
 
         let li = `<li>서버에 연결되었습니다.</li>`;
         ul.insertAdjacentHTML("beforeend", li);
@@ -28,7 +28,14 @@ connButton.onclick=function(){
     };
     sock.onclose = () => {};
     sock.onmessage = (e) => {
-        let li = `<li>${e.data}</li>`;
+        let message = JSON.parse(e.data);
+
+        let name = message.username;
+        let msg = message.content;
+
+        console.log(name);
+        console.log(msg);
+        let li = `<li><span>${name}:</span>${msg}</li>`;
         ul.insertAdjacentHTML("beforeend", li);
     };
 }
@@ -38,6 +45,9 @@ sendBtn.onclick=function(){
         return;
 
     let text = textInput.value;
-    sock.send(text);
+    let data = {type:TYPE_MESSAGE, content : text};
+
+    sock.send(JSON.stringify(data));
+
     textInput.value="";
 }

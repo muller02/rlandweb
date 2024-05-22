@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class WSData {
     private int type;
+    private String username;
     private String content;
 }

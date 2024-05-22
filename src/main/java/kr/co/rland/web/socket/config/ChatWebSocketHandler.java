@@ -16,7 +16,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        WSUser user = new WSUser();
+       
         // users.add(session);
         // System.out.println("Connected from "+session.getRemoteAddress());
         // session.sendMessage(new TextMessage("welcome"));
@@ -24,11 +24,28 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        String mas = message.getPayload();
-        WSData data = new Gson().fromJson(mas, WSData.class);
+        WSData data = new Gson().fromJson(message.getPayload(), WSData.class);
+        
+        if(data.getType() == 1){
+            WSUser user = new WSUser();
+            user.setSession(session);
+            user.setUsername(data.getUsername());
+            users.add(user);
 
-        for(WebSocketSession s : users)
-            s.sendMessage(new TextMessage(message.getPayload()));
+            System.out.println(user);
+            return;
+        }
+
+        for(WSUser user : users){
+
+            WSData sendData = new WSData();
+            sendData.setType(2);
+            sendData.setUsername(user.getUsername());
+            sendData.setContent(data.getContent());
+            String textMessage = new Gson().toJson(sendData);
+
+            user.getSession().sendMessage(new TextMessage(textMessage));
+        }
     }
     
     @Override
